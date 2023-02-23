@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Components</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        function Component(strings, ...dynamicValues){
+            return (props) => {
+                let newContent = strings.slice()
+                dynamicValues.forEach((value, index) => {
+                    newContent[index] += props[value] || ''
+                })
+                return newContent.join('')
+            }
+        }
+
+        const tags = ['h1', 'h2', 'div', 'button', 'input']
+        let styled = {}
+
+        tags.forEach(tag => {
+            const taggedTemplate = (styles, ...dynamicValues) => {
+                let newStyles = styles.slice()
+                return (props) => {    
+                    styles.forEach((style, index) => {
+                        const styleDinamic = dynamicValues[index] ? dynamicValues[index] : ''
+                        const value = typeof styleDinamic === "function" ? styleDinamic(props) : styleDinamic
+                        newStyles += `${style} ${value}`
+                    })
+                    return (content) => {
+                        return `
+                            <${tag} style='${newStyles}'>
+                                ${content}
+                            </${tag}>
+                        `
+                    }
+                }
+            }
+
+            styled = { ...styled, [tag]: taggedTemplate}
+        })
+
+        const TitleStyled = styled.h1`
+            font-family: system-ui;
+            color: ${props => props.color ? 'orange' : 'red'};
+            font-size: ${props => props.size ? props.size : '30px'};
+            text-shadow: 2px 2px 0 black;
+            line-height: 100vh;
+        `
+
+        const propsTitleStyled = {
+            color: false,
+            size: '50px'
+        } 
+
+        const props = {
+            message: 'No te rindas',
+            name: 'Jackson'
+        }
+
+        const Title = Component`<marquee> ${'message'} ----- ${'name'} </marquee>`(props)
+
+        function render(component, container){
+            container.innerHTML = component
+        }
+        
+        render(TitleStyled(propsTitleStyled)(Title), window.container)
+
+    </script>
+</body>
+</html>

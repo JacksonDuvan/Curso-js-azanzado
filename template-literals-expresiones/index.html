@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Literals - expresiones</title>
+</head>
+<body>
+    <h1>Hola mundo</h1>
+    <script>
+        const name = "Jackson"
+        console.log(`Mi nombre es ${name}`)
+        console.log(`Mi nombre es ${34}`)
+        console.log(`Mi nombre es ${'HOla mundo'}`)
+        console.log(`Mi nombre es ${x = "Jackson"}`)
+        console.log(`Mi nombre es ${(function (){return "Jack"})()}`)
+        console.log(`Mi nombre es ${(() => "Jack Zambrano")()}`)
+        console.log(`Mi nombre es ${true && 'Jack ternary'}`)
+        console.log(`Mi nombre es ${false ? 'Jack true' : 'Jack false'}`)
+        console.log(`Mi nombre es ${['a', 'b'].map(l => `${l}-styled`)}`)
+    </script>
+</body>
+</html>
